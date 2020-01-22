@@ -73,15 +73,17 @@ def register():
         if alreadyExists:
             return apology("Username already exists", 400)
         if not alreadyExists:
-            db.users.insertOne(user)
+            db.users.insert_one(user)
      
 
         # log user in
+        '''
         rows = db.execute("SELECT * FROM users WHERE username = :username",
-                        username=request.form.get("username"))
-
+                        username=request.form.get("username"))'''
+        #db.users.find_one({"username": session['user']})
         # Remember which user has logged in
-        session["user_id"] = rows[0]["id"]
+        #session["user_id"] = rows[0]["id"]
+        #session['user_id'] = (db.users.find_one({"username": user['username']}))['id']
         # Redirect user to home page
         return redirect("/")
 

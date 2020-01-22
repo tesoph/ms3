@@ -4,8 +4,11 @@ following code from cs50-finance
 
 import os
 #import requests
-import urllib.parse
-
+#https://stackoverflow.com/questions/29358403/no-module-named-urllib-parse-how-should-i-install-it
+try:
+    from urllib.parse import urlparse
+except ImportError:
+     from urlparse import urlparse
 from flask import redirect, render_template, request, session
 from functools import wraps
 
