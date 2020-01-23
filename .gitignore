@@ -1,2 +1,2 @@
 .gitpod.yml
-_pycache__/
+__pycache__
