@@ -1,0 +1,91 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Post",
+    "definitions": {
+        "Post": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "_id": {
+                    "$ref": "#/definitions/ID"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "integer"
+                },
+                "post_id": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "qt-uri-protocols": [
+                        "https"
+                    ],
+                    "qt-uri-extensions": [
+                        ".jpg"
+                    ]
+                },
+                "number_of_comments": {
+                    "type": "integer"
+                },
+                "created": {
+                    "type": "integer"
+                },
+                "body": {
+                    "type": "string"
+                },
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Comment"
+                    }
+                }
+            },
+            "required": [
+                "_id",
+                "body",
+                "comments",
+                "created",
+                "number_of_comments",
+                "post_id",
+                "score",
+                "title",
+                "url"
+            ],
+            "title": "Post"
+        },
+        "ID": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "$oid": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "$oid"
+            ],
+            "title": "ID"
+        },
+        "Comment": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "index": {
+                    "type": "integer"
+                },
+                "comment": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "comment",
+                "index"
+            ],
+            "title": "Comment"
+        }
+    }
+}
