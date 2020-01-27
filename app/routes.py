@@ -17,7 +17,7 @@ def index():
 
 @app.route('/c')
 def collect():
-    collect_posts()
+    #collect_posts()
     return "a"
 
 @app.route("/register", methods=["GET", "POST"])
