@@ -4,3 +4,4 @@ venv/
 .flaskenv
 .vscode
 ms3workspace.code-workspace
+old/

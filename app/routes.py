@@ -1,38 +1,18 @@
 import os
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 #from flask_pymongo import PyMongo
-from helpers import apology, login_required
+from app.helpers import apology, login_required
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_session import Session
 from tempfile import mkdtemp
 from config import Config
+from app import app
 
-#in __init__.py
-app = Flask(__name__)
-app.config.from_object(Config)
-
-"""
-Following code for app.config form cs50-finance
-"""
-#in config.py
-'''
-# Configure session to use filesystem (instead of signed cookies)
-app.config["SESSION_FILE_DIR"] = mkdtemp()
-app.config["SESSION_PERMANENT"] = False
-#the location to store information about the session
-app.config["SESSION_TYPE"] = "filesystem"
-'''
-
-#enable sessions for this particular flask web application
-Session(app)
-
-#in config.py
-#MONGO_URI=os.environ['MONGO_URI']
-#MONGO_DBNAME=os.environ['MONGO_DBNAME']
-
-client = MongoClient(Config.MONGO_URI)
-db= client.ms3
+@app.route('/')
+@app.route('/index')
+def index():
+    return "Hello, World!"
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

@@ -18,4 +18,13 @@ db= client.ms3
 #Workaround to circular imports
 #(routes needs to import app which is defined above)
 #from app import routes
-from app import app, helpers
+from app import routes
+'''
+@app.shell_context_processor
+def make_shell_context():
+    return {
+        'db': db,
+        'User': User,
+        'Post': Post,
+    }
+'''
