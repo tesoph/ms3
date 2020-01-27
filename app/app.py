@@ -1,6 +1,6 @@
 import os
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
-from flask_pymongo import PyMongo
+#from flask_pymongo import PyMongo
 from helpers import apology, login_required
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
