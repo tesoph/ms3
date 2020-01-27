@@ -90,12 +90,13 @@ for submission in top_subreddit:
 def collect_posts():
     print('x')
     #json.dumps(posts)
+    '''
     with open('app/data/posts.json', 'w+') as f:
          pprint(posts, f)
     '''
     with open('app/data/data.json', 'w') as f:
-         json.dump(posts, f)
-    '''
+         json.dump(posts, f, sort_keys=True, indent=4)
+    
     #https://stackoverflow.com/questions/21525328/python-converting-a-list-of-dictionaries-to-json
 
 #collect_posts()
