@@ -5,3 +5,4 @@ venv/
 .vscode
 ms3workspace.code-workspace
 old/
+*.code-workspace

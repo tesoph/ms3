@@ -13,6 +13,8 @@ import datetime as dt
 import json
 import csv
 import collections
+from pprint import pprint
+
 #from app import app
 
 '''
@@ -27,6 +29,7 @@ reddit = praw.Reddit(client_id=os.environ['clientId'],
                      client_secret=os.environ['clientSecret'],
                      user_agent=os.environ['userAgent']
                      )
+
 
 '''
 reddit = praw.Reddit(client_id=clientId,
@@ -83,10 +86,16 @@ for submission in top_subreddit:
         "comments": commentsList
     }
     posts.append(dict)
-
+#https://stackoverflow.com/questions/47259540/python-writing-json-file-as-list-of-dictionaries
 def collect_posts():
     print('x')
+    #json.dumps(posts)
+    with open('app/data/posts.json', 'w+') as f:
+         pprint(posts, f)
+    '''
     with open('app/data/data.json', 'w') as f:
          json.dump(posts, f)
+    '''
+    #https://stackoverflow.com/questions/21525328/python-converting-a-list-of-dictionaries-to-json
 
 #collect_posts()
