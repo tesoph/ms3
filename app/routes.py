@@ -8,11 +8,17 @@ from flask_session import Session
 from tempfile import mkdtemp
 from config import Config
 from app import app
+from app.get_reddit import collect_posts
 
 @app.route('/')
 @app.route('/index')
 def index():
     return "Hello, World!"
+
+@app.route('/c')
+def collect():
+    collect_posts()
+    return "a"
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

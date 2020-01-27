@@ -12,4 +12,8 @@ class Config(object):
     SESSION_PERMANENT = False
     #the location to store information about the session
     SESSION_TYPE = "filesystem"
-  
+'''
+    clientId=os.environ['CLIENT_ID']
+    clientSecret=os.environ['CLIENT_SECRET']
+    userAgent=os.environ['USER_AGENT']
+    '''
