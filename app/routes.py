@@ -9,11 +9,17 @@ from tempfile import mkdtemp
 from config import Config
 from app import app
 from app.get_reddit import collect_posts
+from app.wiki import summary
 
 @app.route('/')
 @app.route('/index')
 def index():
     return "Hello, World!"
+
+@app.route('/wiki')
+def wiki():
+    s=summary()
+    return render_template("wiki.html", summary=s)
 
 @app.route('/c')
 def collect():
