@@ -9,7 +9,7 @@ from tempfile import mkdtemp
 from config import Config
 from app import app
 from app.get_reddit import collect_posts
-from app.wiki import summary
+from app.wiki import get_content
 
 @app.route('/')
 @app.route('/index')
@@ -18,8 +18,19 @@ def index():
 
 @app.route('/wiki')
 def wiki():
-    s=summary()
+    #s=summary()
     return render_template("wiki.html", summary=s)
+
+@app.route('/search', methods=["GET", "POST"])
+def search():
+    #POST route
+    if request.method == "POST":
+        searchTerm = request.form.get('searchTerm')
+        pageContent=get_content(searchTerm)
+        return render_template('wiki.html', content=pageContent)
+    #GET route
+    else:
+         return render_template('search.html')
 
 @app.route('/c')
 def collect():
@@ -75,6 +86,58 @@ def register():
     else:
         return render_template("register.html")
         
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """Log user in"""
+
+    # Forget any user_id
+    session.clear()
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure username was submitted
+        if not request.form.get("username"):
+            return apology("must provide username", 403)
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            return apology("must provide password", 403)
+      
+        # Query database for username
+        '''rows = db.execute("SELECT * FROM users WHERE username = :username",
+                          username=request.form.get("username"))'''
+        user=request.form.to_dict()
+        user = db.users.find_one({"username": user['username']})
+
+        # Ensure username exists and password is correct
+       ''' if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+            return apology("invalid username and/or password", 403)'''
+        if not user or not check_password_hash(user["hash"], request.form.get("password")):
+            return apology("invalid username and/or password", 403)
+
+        # Remember which user has logged in
+        #session["user_id"] = rows[0]["id"]
+        session['user_id'] = (db.users.find_one({"username": user['username']}))['_id']
+        # Redirect user to home page
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")
+
+
 if __name__ == '__main__':
     
     app.run(host=os.environ.get('IP', '0.0.0.0'),

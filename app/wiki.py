@@ -11,11 +11,20 @@ To get rid of this warning, pass the additional argument
 Traceback (most recent call last):
 '''
 
-#ny = wikipedia.page("New York")
-g = wikipedia.page("GitHub")
-s = wikipedia.summary('Github')
 
-def summary():
+'''
+headings look like
+ === GitHub Enterprise ===
+ '''
+
+#ny = wikipedia.page("New York")
+#g = wikipedia.page("GitHub")
+#s = wikipedia.summary('Github')
+#s= g.content
+
+def get_content(term):
+    page = wikipedia.page(term)
+    s= page.content
     return s
 
     
