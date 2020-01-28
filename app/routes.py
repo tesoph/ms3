@@ -25,7 +25,7 @@ def index():
     a = mongo.db.users.count()
     #b=session['user_id'] = (mongo.db.users.find_one({"_id": session['user_id']}))
 
-    return f"Hello, World! Number of registered users: {a}"
+    return render_template('index.html', content=a)
 
 #@app.route('/wiki' methods=["GET", "POST"])
 #def wiki():
