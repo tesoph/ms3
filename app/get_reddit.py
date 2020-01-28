@@ -4,10 +4,10 @@
 3. append each thread dictionary to a list
 
 '''
-import praw
+#import praw
 import os
 # comment reading from https://praw.readthedocs.io/en/latest/tutorials/comments.html
-from praw.models import MoreComments
+#from praw.models import MoreComments
 import pandas as pd
 import datetime as dt
 import json

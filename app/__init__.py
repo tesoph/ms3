@@ -12,7 +12,7 @@ app.config.from_object(Config)
 Session(app)
 
 client = MongoClient(Config.MONGO_URI)
-db= client.ms3
+db= client.users
 
 #routes module is imported at the bottom.
 #Workaround to circular imports

@@ -8,8 +8,12 @@ from flask_session import Session
 from tempfile import mkdtemp
 from config import Config
 from app import app
-from app.get_reddit import collect_posts
+#from app.get_reddit import collect_posts
 from app.wiki import get_content
+
+
+client = MongoClient(Config.MONGO_URI)
+db= client.users
 
 @app.route('/')
 @app.route('/index')
@@ -32,10 +36,6 @@ def search():
     else:
          return render_template('search.html')
 
-@app.route('/c')
-def collect():
-    collect_posts()
-    return "a"
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -111,9 +111,7 @@ def login():
         user = db.users.find_one({"username": user['username']})
 
         # Ensure username exists and password is correct
-       ''' if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return apology("invalid username and/or password", 403)'''
-        if not user or not check_password_hash(user["hash"], request.form.get("password")):
+        if not check_password_hash(user["password"], request.form.get("password")):
             return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
