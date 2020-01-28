@@ -11,8 +11,8 @@ app.config.from_object(Config)
 #enable sessions for this particular flask web application
 Session(app)
 
-client = MongoClient(Config.MONGO_URI)
-db= client.users
+#client = MongoClient(Config.MONGO_URI)
+#db= client.users
 
 #routes module is imported at the bottom.
 #Workaround to circular imports

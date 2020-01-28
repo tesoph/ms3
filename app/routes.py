@@ -1,6 +1,6 @@
 import os
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
-#from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo
 from app.helpers import apology, login_required
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,18 +12,25 @@ from app import app
 from app.wiki import get_content
 
 
-client = MongoClient(Config.MONGO_URI)
-db= client.users
+#client = MongoClient(Config.MONGO_URI)
+#ms3='ms3'
+#db= client.ms3
+app.config["MONGO_DBNAME"] = 'ms3'
+app.config["MONGO_URI"] = os.environ['MONGO_URI']
+mongo = PyMongo(app)
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Hello, World!"
+    a = mongo.db.users.count()
+    #b=session['user_id'] = (mongo.db.users.find_one({"_id": session['user_id']}))
 
-@app.route('/wiki')
-def wiki():
+    return f"Hello, World! Number of registered users: {a}"
+
+#@app.route('/wiki' methods=["GET", "POST"])
+#def wiki():
     #s=summary()
-    return render_template("wiki.html", summary=s)
+   
 
 @app.route('/search', methods=["GET", "POST"])
 def search():
@@ -36,6 +43,11 @@ def search():
     else:
          return render_template('search.html')
 
+'''
+@app.route('/save')
+def save():
+       #session['user_id']
+'''
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -58,7 +70,7 @@ def register():
         
         
         user=request.form.to_dict()
-        alreadyExists = db.users.find_one({"username": user['username']})
+        alreadyExists = mongo.db.users.find_one({"username": user['username']})
 
      
         del user['confirmation']
@@ -68,7 +80,7 @@ def register():
         if alreadyExists:
             return apology("Username already exists", 400)
         if not alreadyExists:
-            db.users.insert_one(user)
+            mongo.db.users.insert_one(user)
      
 
         # log user in
@@ -78,7 +90,7 @@ def register():
         #db.users.find_one({"username": session['user']})
         # Remember which user has logged in
         #session["user_id"] = rows[0]["id"]
-        session['user_id'] = (db.users.find_one({"username": user['username']}))['_id']
+        session['user_id'] = (mongo.db.users.find_one({"username": user['username']}))['_id']
         # Redirect user to home page
         return redirect("/")
 
@@ -107,16 +119,16 @@ def login():
         # Query database for username
         '''rows = db.execute("SELECT * FROM users WHERE username = :username",
                           username=request.form.get("username"))'''
-        user=request.form.to_dict()
-        user = db.users.find_one({"username": user['username']})
-
+        userinfo=request.form.to_dict()
+        #user = db.users.find_one({"username": user['username']})
+        user = mongo.db.users.find_one({"username": userinfo['username']})
         # Ensure username exists and password is correct
         if not check_password_hash(user["password"], request.form.get("password")):
             return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
         #session["user_id"] = rows[0]["id"]
-        session['user_id'] = (db.users.find_one({"username": user['username']}))['_id']
+        session['user_id'] = (mongo.db.users.find_one({"username": user['username']}))['_id']
         # Redirect user to home page
         return redirect("/")
 
